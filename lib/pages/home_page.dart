@@ -81,12 +81,14 @@ class _HomePageState extends State<HomePage> {
               _snapshot.data.toString(),
             );
             num _usdPrice = _data["market_data"]["current_price"]["usd"];
-            num _change24h = _data["market_data"]["price_change_percentage_24h"];
+            num _change24h =
+                _data["market_data"]["price_change_percentage_24h"];
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                _coinImageWidget(_data["image"]["large"]),
                 _currentPriceWidget(_usdPrice),
                 _percentageChangeWidget(_change24h),
               ],
@@ -112,15 +114,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _percentageChangeWidget(num _change){
+  Widget _percentageChangeWidget(num _change) {
     return Text(
       "${_change.toString()} %",
       style: const TextStyle(
-        color: Colors.white,
-        fontSize: 15,
-        fontWeight: FontWeight.w300
-      ),
-    )
+          color: Colors.white, fontSize: 15, fontWeight: FontWeight.w300),
+    );
   }
 
+  Widget _coinImageWidget(String _imgURL) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: _deviceHeight! * 0.02),
+      height: _deviceHeight! * 0.15,
+      width: _deviceWidth! * 0.15,
+      decoration:
+          BoxDecoration(image: DecorationImage(image: NetworkImage(_imgURL))),
+    );
+  }
 }
