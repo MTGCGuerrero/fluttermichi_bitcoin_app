@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coincap/pages/details_page.dart';
 import 'package:coincap/services/http_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -88,7 +89,14 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _coinImageWidget(_data["image"]["large"]),
+                GestureDetector(
+                    onDoubleTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext _context) {
+                        return DetailsPage();
+                      }));
+                    },
+                    child: _coinImageWidget(_data["image"]["large"])),
                 _currentPriceWidget(_usdPrice),
                 _percentageChangeWidget(_change24h),
                 _descriptionCardWidget(_data["description"]["en"]),
