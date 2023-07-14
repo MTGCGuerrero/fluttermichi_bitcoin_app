@@ -91,6 +91,7 @@ class _HomePageState extends State<HomePage> {
                 _coinImageWidget(_data["image"]["large"]),
                 _currentPriceWidget(_usdPrice),
                 _percentageChangeWidget(_change24h),
+                _descriptionCardWidget(_data["description"]["en"]),
               ],
             );
           } else {
@@ -129,6 +130,25 @@ class _HomePageState extends State<HomePage> {
       width: _deviceWidth! * 0.15,
       decoration:
           BoxDecoration(image: DecorationImage(image: NetworkImage(_imgURL))),
+    );
+  }
+
+  Widget _descriptionCardWidget(String _description) {
+    return Container(
+      height: _deviceHeight! * 0.45,
+      width: _deviceWidth! * 0.90,
+      margin: EdgeInsets.symmetric(
+        vertical: _deviceHeight! * 0.05,
+      ),
+      padding: EdgeInsets.symmetric(
+        vertical: _deviceHeight! * 0.01,
+        horizontal: _deviceHeight! * 0.01,
+      ),
+      color: const Color.fromRGBO(83, 88, 206, 0.5),
+      child: Text(
+        _description,
+        style: const TextStyle(color: Colors.white),
+      ),
     );
   }
 }
