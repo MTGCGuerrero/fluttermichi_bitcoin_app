@@ -168,9 +168,11 @@ class _HomePageState extends State<HomePage> {
         horizontal: _deviceHeight! * 0.01,
       ),
       color: const Color.fromRGBO(83, 88, 206, 0.5),
-      child: Text(
-        _description,
-        style: const TextStyle(color: Colors.white),
+      child: SingleChildScrollView(
+        child: Text(
+          _description,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
