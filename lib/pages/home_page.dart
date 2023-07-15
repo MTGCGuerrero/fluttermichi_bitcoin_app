@@ -95,6 +95,7 @@ class _HomePageState extends State<HomePage> {
             num _usdPrice = _data["market_data"]["current_price"]["usd"];
             num _change24h =
                 _data["market_data"]["price_change_percentage_24h"];
+            Map _exchangeRates = _data["market_data"]["current_price"];
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
@@ -104,13 +105,16 @@ class _HomePageState extends State<HomePage> {
                     onDoubleTap: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (BuildContext _context) {
-                        return DetailsPage();
+                        return DetailsPage(
+                          rates: _exchangeRates,
+                        );
                       }));
                     },
                     child: _coinImageWidget(_data["image"]["large"])),
                 _currentPriceWidget(_usdPrice),
                 _percentageChangeWidget(_change24h),
-                _descriptionCardWidget(_data["description"]["en"]),
+                SingleChildScrollView(
+                    child: _descriptionCardWidget(_data["description"]["en"])),
               ],
             );
           } else {
