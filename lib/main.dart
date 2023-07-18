@@ -15,14 +15,13 @@ void main() async {
 }
 
 Future<void> loadConfig() async {
-  String _configContent =
-      await rootBundle.loadString("assets/config/main.json");
+  String configContent = await rootBundle.loadString("assets/config/main.json");
 
-  Map _configData = jsonDecode(_configContent);
-  print(_configData);
+  Map configData = jsonDecode(configContent);
+  print(configData);
   GetIt.instance.registerSingleton<AppConfig>(
     AppConfig(
-      COIN_API_BASE_URL: _configData["COIN_API_BASE_URL"],
+      COIN_API_BASE_URL: configData["COIN_API_BASE_URL"],
     ),
   );
 }
@@ -46,7 +45,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         scaffoldBackgroundColor: const Color.fromRGBO(88, 60, 197, 1.0),
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

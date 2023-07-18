@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _HomePageState();
@@ -46,14 +48,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _selectedCoinDropdown() {
-    List<String> _coins = [
+    List<String> coins = [
       "bitcoin",
       "ethereum",
       "tether",
       "cardano",
       "ripple"
     ];
-    List<DropdownMenuItem<String>> _items = _coins
+    List<DropdownMenuItem<String>> items = coins
         .map(
           (e) => DropdownMenuItem(
               value: e,
@@ -68,10 +70,10 @@ class _HomePageState extends State<HomePage> {
         .toList();
     return DropdownButton(
       value: _selectedCoin,
-      items: _items,
-      onChanged: (_value) {
+      items: items,
+      onChanged: (value) {
         setState(() {
-          _selectedCoin = _value;
+          _selectedCoin = value;
         });
       },
       dropdownColor: const Color.fromRGBO(83, 88, 206, 1.0),
@@ -87,15 +89,15 @@ class _HomePageState extends State<HomePage> {
   Widget _dataWidgets() {
     return FutureBuilder(
         future: _http!.get("/coins/$_selectedCoin"),
-        builder: (BuildContext _context, AsyncSnapshot _snapshot) {
-          if (_snapshot.hasData) {
-            Map _data = jsonDecode(
-              _snapshot.data.toString(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            Map data = jsonDecode(
+              snapshot.data.toString(),
             );
-            num _usdPrice = _data["market_data"]["current_price"]["usd"];
-            num _change24h =
-                _data["market_data"]["price_change_percentage_24h"];
-            Map _exchangeRates = _data["market_data"]["current_price"];
+            num usdPrice = data["market_data"]["current_price"]["usd"];
+            num change24h =
+                data["market_data"]["price_change_percentage_24h"];
+            Map exchangeRates = data["market_data"]["current_price"];
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.max,
@@ -104,17 +106,17 @@ class _HomePageState extends State<HomePage> {
                 GestureDetector(
                     onDoubleTap: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext _context) {
+                          MaterialPageRoute(builder: (BuildContext context) {
                         return DetailsPage(
-                          rates: _exchangeRates,
+                          rates: exchangeRates,
                         );
                       }));
                     },
-                    child: _coinImageWidget(_data["image"]["large"])),
-                _currentPriceWidget(_usdPrice),
-                _percentageChangeWidget(_change24h),
+                    child: _coinImageWidget(data["image"]["large"])),
+                _currentPriceWidget(usdPrice),
+                _percentageChangeWidget(change24h),
                 SingleChildScrollView(
-                    child: _descriptionCardWidget(_data["description"]["en"])),
+                    child: _descriptionCardWidget(data["description"]["en"])),
               ],
             );
           } else {
@@ -127,9 +129,9 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget _currentPriceWidget(num _rate) {
+  Widget _currentPriceWidget(num rate) {
     return Text(
-      "${_rate.toStringAsFixed(2)} USD",
+      "${rate.toStringAsFixed(2)} USD",
       style: const TextStyle(
         color: Colors.white,
         fontSize: 30,
@@ -138,25 +140,25 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _percentageChangeWidget(num _change) {
+  Widget _percentageChangeWidget(num change) {
     return Text(
-      "${_change.toString()} %",
+      "${change.toString()} %",
       style: const TextStyle(
           color: Colors.white, fontSize: 15, fontWeight: FontWeight.w300),
     );
   }
 
-  Widget _coinImageWidget(String _imgURL) {
+  Widget _coinImageWidget(String imgURL) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: _deviceHeight! * 0.02),
       height: _deviceHeight! * 0.15,
       width: _deviceWidth! * 0.15,
       decoration:
-          BoxDecoration(image: DecorationImage(image: NetworkImage(_imgURL))),
+          BoxDecoration(image: DecorationImage(image: NetworkImage(imgURL))),
     );
   }
 
-  Widget _descriptionCardWidget(String _description) {
+  Widget _descriptionCardWidget(String description) {
     return Container(
       height: _deviceHeight! * 0.45,
       width: _deviceWidth! * 0.90,
@@ -170,7 +172,7 @@ class _HomePageState extends State<HomePage> {
       color: const Color.fromRGBO(83, 88, 206, 0.5),
       child: SingleChildScrollView(
         child: Text(
-          _description,
+          description,
           style: const TextStyle(color: Colors.white),
         ),
       ),

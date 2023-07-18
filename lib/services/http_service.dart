@@ -1,11 +1,11 @@
 import "package:coincap/models/app_config.dart";
-import 'package:flutter/material.dart';
 import "package:dio/dio.dart";
 import "package:get_it/get_it.dart";
 
 class HTTPService {
   final Dio dio = Dio();
   AppConfig? _appConfig;
+  // ignore: non_constant_identifier_names
   String? _base_url;
 
   HTTPService() {
@@ -25,5 +25,6 @@ class HTTPService {
       print("HTTPService: Unable to perform request.");
       print(e);
     }
+    return null;
   }
 }
